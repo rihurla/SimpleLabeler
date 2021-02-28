@@ -1,0 +1,18 @@
+name: "Pull Request Labeler"
+description: 'Labels pull requests'
+inputs:
+  repo-token:
+    description: 'token for label manipulation'
+    required: true
+  label-for-review:
+    description: 'Label for Ready to review state'
+    required: true
+  label-for-approved:
+    description: 'Label for Approved state'
+    required: true
+  number-of-approvals:
+    description: 'minimum number of approvals required'
+    required: true
+runs:
+  using: 'node12'
+  main: 'index.js'
