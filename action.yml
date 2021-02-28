@@ -1,8 +1,8 @@
-name: "Pull Request Labeler"
-description: 'Labels pull requests'
+name: "SimpleLabeler"
+description: 'Automatically applies labels for the pull request states'
 inputs:
   repo-token:
-    description: 'token for label manipulation'
+    description: 'Token used for label manipulation'
     required: true
   label-for-review:
     description: 'Label for Ready to review state'
@@ -11,7 +11,7 @@ inputs:
     description: 'Label for Approved state'
     required: true
   number-of-approvals:
-    description: 'minimum number of approvals required'
+    description: 'Minimum number of approvals required'
     required: true
 runs:
   using: 'node12'
