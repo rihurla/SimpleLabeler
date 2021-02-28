@@ -9,15 +9,12 @@ function start() {
 }
 
 function evaluatePullRequest() {
-  switch(payload.action) {
-    case "opened", "reopened", "synchronize":
-      addReadyToReviewLabel();
-    break;
-    case "submitted":
-      evaluateReviews();
-    break;
-    default:
-      console.log(`Action not supported ${payload.action}`);
+  if (payload.action == "opened" || payload.action == "reopened" || payload.action == "synchronize") {
+    addReadyToReviewLabel();
+  } else if (payload.action == "submitted") {
+    evaluateReviews();
+  } else {
+    console.log(`Action not supported ${payload.action}`);
   }
 }
 
