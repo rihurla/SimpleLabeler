@@ -1,7 +1,7 @@
-name: "SimpleLabeler"
+name: 'SimpleLabeler'
 description: 'Automatically applies labels for the pull request states'
-icon: git-pull-request
-color: gray-dark
+icon: 'git-pull-request'
+color: 'gray-dark'
 inputs:
   repo-token:
     description: 'Token used for label manipulation'
