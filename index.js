@@ -45,25 +45,30 @@ async function addApprovedLabel() {
 }
 
 async function evaluateReviews() {
-  const result = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
-    owner: payload.pull_request.base.repo.owner.login,
-    repo: payload.pull_request.base.repo.name,
-    pull_number: payload.pull_request.number
-  });
-
-  const numberOfApprovalsRequired = core.getInput('number-of-approvals');
-  const reviews = result.data
-  var approvals = 0
-
-  reviews.forEach((item, i) => {
-    if (item.state == "APPROVED") {
-      approvals += 1;
+  try {
+    const approvedResponse = await octokit.graphql(`
+      query($name: String!, $owner: String!, $pull_number: Int!) {
+        repository(name: $name, owner: $owner) {
+          pullRequest(number: $pull_number) {
+            reviews(states: APPROVED) {
+              totalCount
+            }
+          }
+        }
+      }
+      `, {
+        "name": payload.pull_request.base.repo.name,
+        "owner": payload.pull_request.base.repo.owner.login,
+        "pull_number": payload.pull_request.number
+      });
+      const approvalsRequired = core.getInput('number-of-approvals');
+      const approvals = approvedResponse.repository.pullRequest.reviews.totalCount
+      if (approvals >= approvalsRequired) {
+        addApprovedLabel();
+      }
+    } catch (error) {
+      console.log(`ERROR: ${error}`);
     }
-  });
-
-  if (approvals >= numberOfApprovalsRequired) {
-    addApprovedLabel();
-  }
 }
 
 function logFullPayload() {
