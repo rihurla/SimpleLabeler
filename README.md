@@ -24,7 +24,7 @@ jobs:
     steps:
     - name: Pull request labeler
       id: labeler
-      uses: rihurla/SimpleLabeler@v1
+      uses: rihurla/SimpleLabeler@v1.1
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         label-for-review: 'Ready for review'
